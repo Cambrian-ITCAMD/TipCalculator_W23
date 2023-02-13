@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TipCalculator_W23</string>
+    <string name="bill_amount">Bill Amount</string>
+    <string name="bill_template">$123.45</string>
+    <string name="tip_percent">Tip Percent</string>
+    <string name="tip_amount">Tip Amount</string>
+    <string name="empty_price">$0.00</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="number_of_people">Number of People</string>
+    <string name="_1_person">1</string>
+    <string name="_2_people">2</string>
+    <string name="_3_people">3</string>
+    <string name="_4_people">4</string>
+    <string name="total_per_person">Total per Person</string>
+</resources>
