@@ -12,4 +12,5 @@
     <string name="_3_people">3</string>
     <string name="_4_people">4</string>
     <string name="total_per_person">Total per Person</string>
+    <string name="amount">Amount</string>
 </resources>
