@@ -124,6 +124,7 @@
                 android:text="@string/number_of_people"
                 android:layout_weight="2"/>
             <RadioGroup
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -150,10 +151,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/_4_people" />
             </RadioGroup>
+            <Spinner
+                android:id="@+id/numPeopleSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
         </LinearLayout>
 
         <!-- Total Per Person -->
         <LinearLayout
+            android:id="@+id/perPersonLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -164,10 +171,17 @@
                 android:text="@string/total_per_person"
                 android:layout_weight="2"/>
             <TextView
+                android:id="@+id/totalAmountTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="@string/empty_price" />
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            />
     </LinearLayout>
 </ScrollView>
