@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NewText">
+        <item name="android:gravity">right</item>
+        <item name="android:textColor">#f00</item>
+    </style>
+
+    <style name="Label" parent="NewText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
