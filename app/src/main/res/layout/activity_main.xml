@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:overScrollMode="ifContentScrolls"
+    android:background="#FF00FB"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -26,6 +27,7 @@
                 android:fontFamily="monospace"
                 android:text="@string/bill_amount"
                 android:textStyle="bold|italic"
+                android:textColor="#D900FF"
                 style="@style/Label"/>
 
             <EditText
@@ -64,6 +66,7 @@
                 android:layout_weight="1"
                 android:elevation="10dp"
                 android:rotationX="37"
+                android:backgroundTint="#0f0"
                 app:icon="@drawable/ic_outline_remove_24"
                 app:iconGravity="textStart"
                 app:iconPadding="-3dp" />
@@ -84,6 +87,7 @@
                 android:layout_weight="1"
                 android:elevation="10dp"
                 android:rotationY="-41"
+                android:backgroundTint="#f00"
                 app:icon="@drawable/ic_baseline_add_24"
                 app:iconGravity="textStart"
                 app:iconPadding="-3dp" />
@@ -232,6 +236,7 @@
             android:rotation="219"
             android:rotationX="54"
             android:rotationY="46"
+            android:backgroundTint="#00f"
             android:text="Save"
             android:textSize="18sp" />
     </LinearLayout>
