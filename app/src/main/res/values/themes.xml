@@ -13,6 +13,12 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:background">#9a9400</item>
+        <item name="android:actionOverflowMenuStyle">@style/myMenuItems</item>
         <item name="android:textViewStyle">@style/NewText</item>
+    </style>
+
+    <style name="myMenuItems">
+        <item name="backgroundColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

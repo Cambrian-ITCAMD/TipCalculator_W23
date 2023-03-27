@@ -1,12 +1,16 @@
 package com.example.tipcalculator_w23
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.view.menu.MenuBuilder
 import com.example.tipcalculator_w23.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
@@ -89,6 +93,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
 
             }
         )
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("ItemID", item.itemId.toString())
+        when(item.itemId){
+            R.id.menu_settings -> {
+                Toast.makeText(this, "You clicked Settings", Toast.LENGTH_SHORT).show()
+            }
+            R.id.menu_print -> {
+                Toast.makeText(this, "You clicked print", Toast.LENGTH_LONG).show()
+            }
+            R.id.menu_share -> {
+                Toast.makeText(this, "You clicked share", Toast.LENGTH_SHORT).show()
+            }
+            R.id.menu_about -> {
+                Toast.makeText(this, "You clicked about", Toast.LENGTH_SHORT).show()
+            }
+            R.id.menu_reset -> {
+                Toast.makeText(this, "You clicked reset", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     /**

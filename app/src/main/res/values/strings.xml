@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TipCalculator_W23</string>
+    <string name="app_name">TC23</string>
     <string name="bill_amount">Bill Amount</string>
     <string name="bill_template">$123.45</string>
     <string name="tip_percent">Tip Percent</string>
