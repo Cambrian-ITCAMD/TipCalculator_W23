@@ -1,6 +1,8 @@
 package com.example.tipcalculator_w23
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +13,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.preference.PreferenceManager
 import com.example.tipcalculator_w23.databinding.ActivityMainBinding
+import java.text.NumberFormat
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
     AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener{
@@ -19,10 +24,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
     private var tipPercent = 0.5f
     private lateinit var arrayAdapter: ArrayAdapter<String>
     private lateinit var myList: ArrayAdapter<String>
+    private lateinit var sharedPrefs: SharedPreferences
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item)
         arrayAdapter.add("1 Person")
@@ -57,6 +67,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
         //val incButton = findViewById<Button>(R.id.inc_button)
         val incButton = binding.incButton
         incButton.setOnClickListener(this)
+
 
         updateDisplay()
 
@@ -95,9 +106,46 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        //var myValue = sharedPrefs.getBoolean("key", default)
+//        var switchValue = sharedPrefs.getBoolean("switch_preference_1", false)
+//        Toast.makeText(this, switchValue.toString(), Toast.LENGTH_SHORT).show()
+////
+//        var listValue = sharedPrefs.getString("list_preference_1", "")
+//        Toast.makeText(this, "Text:" + listValue, Toast.LENGTH_SHORT).show()
+
+        //var billAmount = sharedPrefs.getString("bill_amount_string", "")
+        binding.billAmountEt.setText(sharedPrefs.getString("bill_amount_string", ""))
+        tipPercent = sharedPrefs.getFloat("tip_percent", 0.2f)
+        val numPeople = sharedPrefs.getInt("numPeople", 12)
+        binding.numPeopleSpinner.setSelection(12, true)
+        updateDisplay()
+    }
+
+    override fun onPause() {
+        val editor = sharedPrefs.edit()
+        //sharedPrefs.getType("key", defaultValue)
+
+        if(sharedPrefs.getBoolean("switch_preference_1", false)) {
+            editor.putString("bill_amount_string", binding.billAmountEt.text.toString())
+            editor.putFloat("tip_percent", tipPercent)
+            editor.putInt("numPeople", binding.numPeopleSpinner.selectedItemPosition)
+        }
+        else{
+            editor.clear()
+            editor.putBoolean("switch_preference_1", false)
+        }
+        //editor.commit()
+        editor.apply()
+
+        super.onPause()
+    }
+
     @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
+        //if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
     }
@@ -106,7 +154,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
         Log.d("ItemID", item.itemId.toString())
         when(item.itemId){
             R.id.menu_settings -> {
-                Toast.makeText(this, "You clicked Settings", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
             R.id.menu_print -> {
                 Toast.makeText(this, "You clicked print", Toast.LENGTH_LONG).show()
@@ -156,9 +204,39 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
             R.id.two_people -> Log.i("RadioButton", "Two People")
         }
 
+        val roundingOption = sharedPrefs.getString("list_preference_1", "")
 
-        val totalAmount = billAmount * (1 + tipPercent)
-        binding.totalAmountTV.text = totalAmount.toString()
+        var tipAmount = billAmount * tipPercent
+        if(roundingOption.equals(getString(R.string.round_tip_value))){
+            try {
+                tipAmount = tipAmount.roundToInt().toFloat()
+            } catch (_:Exception) {}
+
+            if(billAmount != 0f)
+                tipPercent = tipAmount / billAmount
+        }
+
+
+        var subtotalAmount = billAmount * (1 + tipPercent)
+        if(roundingOption.equals(getString(R.string.round_total_value))){
+            try {
+                subtotalAmount = subtotalAmount.roundToInt().toFloat()
+            } catch (_:Exception) {}
+
+            tipAmount = subtotalAmount - billAmount
+            if(billAmount != 0f)
+                tipPercent = tipAmount / billAmount
+        }
+        val actualNumPeople = binding.numPeopleSpinner.selectedItemPosition + 1
+        val totalAmount = subtotalAmount / actualNumPeople
+
+        val currency = NumberFormat.getCurrencyInstance()
+        val percent = NumberFormat.getPercentInstance()
+
+        binding.tipPercentTv.text = percent.format(tipPercent)
+        binding.tipAmountTv.setText(currency.format(tipAmount))
+        binding.subAmountTv.text = currency.format(subtotalAmount)
+        binding.totalAmountTV.text = currency.format(totalAmount)
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -181,6 +259,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextWatcher,
         else {
             binding.perPersonLL.visibility = View.VISIBLE
         }
+        updateDisplay()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

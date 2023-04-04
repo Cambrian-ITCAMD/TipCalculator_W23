@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="rounding_text">
+        <item>@string/no_rounding_text</item>
+        <item>@string/round_tip_text</item>
+        <item>@string/round_total_text</item>
+    </string-array>
+
+    <string-array name="rounding_values">
+        <item>@string/no_rounding_value</item>
+        <item>@string/round_tip_value</item>
+        <item>@string/round_total_value</item>
+    </string-array>
+</resources>
